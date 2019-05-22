@@ -13,12 +13,12 @@ func TestParseGivenValid(t *testing.T) {
 		out time.Duration
 	}{
 		// Full string
-		{"P1Y2DT3H4M5S", 367*24*time.Hour + 3*time.Hour + 4*time.Minute + 5*time.Second},
+		{"P1Y2DT3H4M5S", yearTime + 2*dayTime + 3*time.Hour + 4*time.Minute + 5*time.Second},
 
 		// Partial strings
-		{"P1Y", 365 * 24 * time.Hour},
-		{"P2W", 2 * 7 * 24 * time.Hour},
-		{"P2D", 2 * 24 * time.Hour},
+		{"P1Y", yearTime},
+		{"P2W", 2 * weekTime},
+		{"P2D", 2 * dayTime},
 		{"PT3H", 3 * time.Hour},
 		{"PT4M", 4 * time.Minute},
 		{"PT5S", 5 * time.Second},
@@ -26,14 +26,14 @@ func TestParseGivenValid(t *testing.T) {
 		// Decimal fractions in smallest parts
 		{"P1.5Y", 1.5 * 365 * 24 * time.Hour},
 		{"P0.5W", 0.5 * 7 * 24 * time.Hour},
-		{"P1Y0.5D", 365*24*time.Hour + 0.5*24*time.Hour},
-		{"P1YT0.5H", 365*24*time.Hour + 0.5*60*time.Minute},
-		{"P1YT0.5M", 365*24*time.Hour + 0.5*60*time.Second},
-		{"P1YT0.5S", 365*24*time.Hour + 500*time.Millisecond},
+		{"P1Y0.5D", yearTime + 0.5*24*time.Hour},
+		{"P1YT0.5H", yearTime + 0.5*60*time.Minute},
+		{"P1YT0.5M", yearTime + 0.5*60*time.Second},
+		{"P1YT0.5S", yearTime + 500*time.Millisecond},
 		{"P1.5D", 1.5 * 24 * time.Hour},
-		{"P1DT0.5H", 24*time.Hour + 0.5*60*time.Minute},
-		{"P1DT0.5M", 24*time.Hour + 0.5*60*time.Second},
-		{"P1DT0.5S", 24*time.Hour + 500*time.Millisecond},
+		{"P1DT0.5H", dayTime + 0.5*60*time.Minute},
+		{"P1DT0.5M", dayTime + 0.5*60*time.Second},
+		{"P1DT0.5S", dayTime + 500*time.Millisecond},
 		{"PT1.5H", 1.5 * 60 * time.Minute},
 		{"PT1H0.5M", time.Hour + 0.5*60*time.Second},
 		{"PT1H0.5S", time.Hour + 500*time.Millisecond},
@@ -124,17 +124,17 @@ func TestFormatGivenValid(t *testing.T) {
 		{time.Hour + time.Minute + time.Second + time.Millisecond, "PT1H1M1.001S"},
 
 		// Smaller than a week (NB: should not produce week-based values)
-		{24*time.Hour + time.Hour, "P1DT1H"},
+		{dayTime + time.Hour, "P1DT1H"},
 
 		// Smaller than a year
-		{10*24*time.Hour + time.Hour, "P10DT1H"},
-		{10*24*time.Hour + time.Hour + time.Minute, "P10DT1H1M"},
-		{10*24*time.Hour + time.Hour + time.Minute + time.Second, "P10DT1H1M1S"},
-		{10*24*time.Hour + time.Hour + time.Minute + time.Second + time.Millisecond, "P10DT1H1M1.001S"},
+		{10*dayTime + time.Hour, "P10DT1H"},
+		{10*dayTime + time.Hour + time.Minute, "P10DT1H1M"},
+		{10*dayTime + time.Hour + time.Minute + time.Second, "P10DT1H1M1S"},
+		{10*dayTime + time.Hour + time.Minute + time.Second + time.Millisecond, "P10DT1H1M1.001S"},
 
 		// Larger than year
-		{366*24*time.Hour + time.Hour + time.Minute + time.Second + time.Millisecond, "P1Y1DT1H1M1.001S"},
-		{375*24*time.Hour + time.Hour + time.Minute + time.Second + time.Millisecond, "P1Y10DT1H1M1.001S"},
+		{yearTime + dayTime + time.Hour + time.Minute + time.Second + time.Millisecond, "P1Y1DT1H1M1.001S"},
+		{yearTime + 10*dayTime + time.Hour + time.Minute + time.Second + time.Millisecond, "P1Y10DT1H1M1.001S"},
 	}
 
 	for _, vec := range vecs {
