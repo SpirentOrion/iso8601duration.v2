@@ -143,18 +143,16 @@ func Format(d time.Duration) (string, error) {
 	}
 
 	if f := d / yearTime; f >= 1 {
-		i := int(f)
-		fmt.Fprintf(s, "%dY", i)
-		d -= time.Duration(i) * yearTime
+		fmt.Fprintf(s, "%dY", f)
+		d -= f * yearTime
 		if d == 0 {
 			goto done
 		}
 	}
 
 	if f := d / dayTime; f >= 1 {
-		i := int(f)
-		fmt.Fprintf(s, "%dD", i)
-		d -= time.Duration(i) * dayTime
+		fmt.Fprintf(s, "%dD", f)
+		d -= f * dayTime
 		if d == 0 {
 			goto done
 		}
@@ -163,18 +161,16 @@ func Format(d time.Duration) (string, error) {
 	s.WriteString("T")
 
 	if f := d / time.Hour; f >= 1 {
-		i := int(f)
-		fmt.Fprintf(s, "%dH", i)
-		d -= time.Duration(i) * time.Hour
+		fmt.Fprintf(s, "%dH", f)
+		d -= f * time.Hour
 		if d == 0 {
 			goto done
 		}
 	}
 
 	if f := d / time.Minute; f >= 1 {
-		i := int(f)
-		fmt.Fprintf(s, "%dM", i)
-		d -= time.Duration(i) * time.Minute
+		fmt.Fprintf(s, "%dM", f)
+		d -= f * time.Minute
 		if d == 0 {
 			goto done
 		}
