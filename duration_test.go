@@ -139,8 +139,8 @@ func TestFormatGivenValid(t *testing.T) {
 
 	for _, vec := range vecs {
 		s, err := Format(vec.in)
-		assert.NoError(t, err, "%s", vec.in)
-		assert.Equal(t, vec.out, s, "%s", vec.in)
+		assert.NoError(t, err, vec.in)
+		assert.Equal(t, vec.out, s, vec.in)
 	}
 }
 
@@ -158,9 +158,9 @@ func TestFormatGivenInvalid(t *testing.T) {
 
 	for _, vec := range vecs {
 		s, err := Format(vec.in)
-		if assert.Error(t, err, "%s", vec.in) {
-			assert.Equal(t, vec.err, err, "%s", vec.in)
+		if assert.Error(t, err, vec.in) {
+			assert.Equal(t, vec.err, err, vec.in)
 		}
-		assert.Empty(t, s, "%s", vec.in)
+		assert.Empty(t, s, vec.in)
 	}
 }
